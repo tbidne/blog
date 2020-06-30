@@ -1,14 +1,18 @@
 body {
     color: black;
+    background: #f8f8f8;
     font-size: 16px;
-    margin: 0px auto 0px auto;
-    width: 600px;
+    font-family: 'Avenir', 'Source Code Pro';
+    width: 1000px;
 }
 
-div#header {
-    border-bottom: 2px solid black;
-    margin-bottom: 30px;
-    padding: 12px 0px 12px 0px;
+body #content {
+    margin-left: 225px;
+}
+
+div#banner {
+    margin-top: -8px;
+    margin-left: 205px;
 }
 
 div#logo a {
@@ -53,4 +57,50 @@ div.info {
     color: #555;
     font-size: 14px;
     font-style: italic;
+}
+
+.sidenav {
+    height: 100%;
+    width: 215px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    color: #818181;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav #title {
+    padding: 6px 8px 6px 16px;
+    font-size: 25px;
+    margin: 0px auto 0px auto;
+}
+
+.sidenav #pic {
+    margin-left: 36px;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+  
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    font-size: 28px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
 }
