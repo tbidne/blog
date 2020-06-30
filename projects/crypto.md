@@ -25,7 +25,7 @@ The most glaring issue here is that the state and key matrices are represented a
 
 For the variable key size / state size, I could even imagine something like
 
-```Haskell
+```haskell
 {-# LANGUAGE DataKinds, KindSignatures, InstanceSigs #-}
 
 public static void

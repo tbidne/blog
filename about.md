@@ -8,7 +8,7 @@ I am a software engineer based in Washington D.C.
 
 My programming interests are varied, though most recently I have become focused on program-correctness, which naturally led to Haskell. Why Haskell?
 
-On the practical side, I deeply appreciate Haskell's purity and all the tools it provides for encoding program logic into its type system. Haskell is not the only pure functional language, but the other ones I am aware of either lack useful features (e.g. Elm and Higher Kinded Types, Typeclasses) or are relatively new and lack libraries (e.g. Agda, Idris). PureScript is perhaps the best example of a Haskell-inspired language that arguably exceeds its predecessor in its domain (web programming), though it does lack some advanced features like `GADTs` and `Type Families`.
+On the practical side, I deeply appreciate Haskell's purity and all the tools it provides for encoding program logic into its type system. Haskell is not the only pure functional language, but the other ones I am aware of either lack useful features (e.g. Elm and Higher Kinded Types, Typeclasses) or are relatively new and lack libraries (e.g. Agda, Idris). PureScript is perhaps the best example of a Haskell-inspired language that arguably exceeds its predecessor in its domain (web programming), though it does lack some advanced features like `GADTs` and `TypeFamilies`.
 
 Less practically, what keeps me coming back to Haskell is its commitment to pushing the boundaries and "Doing the Right Thing". Haskell feels like an endless well of knowledge, a gateway drug of sorts. Prior to Haskell, I had never heard of concepts like "Monads", "Dependent Types", or "Codata". These concepts are both extremely cool _and_ useful! It is disappointing that these concepts are alien to most of the programming world, but functional programming has become more in vogue, so perhaps there will be a day when some of these more exotic ideas are mainstream. Until then, I will happily explore them on my own.
 
@@ -24,9 +24,9 @@ I found cryptography _fascinating_ in university, and the [first Haskell project
 
 ### Abstract Algebra
 
-A university cryptography course was responsible for introducing me to abstract algebra, and it caused an epiphany, "Hang on, this actually seems interesting in its own right." Up until then I had a very immature view of mathematics ("math is combinatorics or calculus on $\mathbb{R}$", essentially), so I have abstract algebra to thank for opening my eyes to the beautiful world of math.
+A university cryptography course was responsible for introducing me to abstract algebra, which led to the epiphany, "Hang on, this actually seems inherently interesting." Up until then I had a very immature view of mathematics ("math is combinatorics or calculus on $\mathbb{R}$", essentially), so I have abstract algebra to thank for opening my eyes to the beautiful world of math.
 
-The first math book I purchased "fun fun" was [Pinter's A Book of Abstract Algebra](https://www.amazon.com/Book-Abstract-Algebra-Second-Mathematics/dp/0486474178). This book is an excellent introduction to the subject, culminating in what is the coolest proof that I am aware of, i.e., the insolvability of the quintic equation. The quintic equation is actually what prompted me to purchase Pinter. Wikipedia has a [proof sketch](https://en.wikipedia.org/wiki/Abel%E2%80%93Ruffini_theorem), and I found the ideas
+The first math book I purchased "fun fun" was [Pinter's A Book of Abstract Algebra](https://www.amazon.com/Book-Abstract-Algebra-Second-Mathematics/dp/0486474178). This book is an excellent introduction to the subject, culminating in what is the coolest proof that I know: the insolvability of the quintic equation. The quintic equation is actually what prompted me to purchase Pinter. Wikipedia has a [proof sketch](https://en.wikipedia.org/wiki/Abel%E2%80%93Ruffini_theorem), and I found the ideas
 
 1. We have a formula for quartic equations but something "goes wrong" with degree $\ge 5$.
 1. Somehow this problem can be encoded via "symmetries".
