@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>CLI Utils</title>
+    <link rel="stylesheet" type="text/css" href="../css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../css/syntax.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source Code Pro">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<body>
+    <div class="topnav">
+        <ul class="horizontal">
+            <li><a href="../index.html">Thomas Bidne</a></li>
+            <li><a href="https://github.com/tbidne" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://linkedin.com/in/tbidne" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
+            <li class="rightli"><a href="../contact.html">Contact</a></li>
+            <li class="rightli"><a href="../archive.html">Archive</a></li>
+            <li class="rightli"><a href="../projects.html">Projects</a></li>
+            <li class="rightli"><a href="../TBidne_Resume.pdf">Resume</a></li>
+            <li class="rightli"><a href="../about.html">About</a></li>
+          </ul>
+    </div>
+
+    <div id="content">
+        <h1>CLI Utils</h1>
+        <p><span class="fa fa-github"></span> <a href="https://github.com/tbidne/cli-utils">Repo</a></p>
+<p>This is my first project that I actually use regularly! The concept is very simple, it just implements several different CLI actions that I personally use somewhat frequently.</p>
+<p>This is the first time I used <a href="https://hackage.haskell.org/package/mtl">MTL</a>, and I can see why it is popular. It took me considerable time to understand the motivation for monad transformers, but after that the jump to typeclass constraints is pretty reasonable. It is nice having a pure implementation that can be tested, without having to navigate the annoyances of testing real <code>IO</code>.</p>
+<p>I also used <a href="https://hackage.haskell.org/package/QuickCheck">QuickCheck</a> for the first time! Frankly, QuickCheck is amazing. I can’t believe property testing isn’t more popular. There are some rough edges (orphan instances, writing shrinks by hand), but they are well worth the trade-off (at least when the alternative is no property tests). QuickCheck definitely helped me find some bugs in my implementation.</p>
+<p>Below is a description of the three implemented actions.</p>
+<h3 id="runs-cli-commands-asynchronously">Runs cli commands asynchronously</h3>
+<p>Motivation: At the start of my day I typically run several cli commands. Typing these by hand is tedious and error prone, so I could write an alias in my <code>.zshenv</code>, e.g. <code>alias start=cmd1 &amp;&amp; cmd2 &amp;&amp; ...</code>, but this has the following drawbacks:</p>
+<ul>
+<li>If any <code>cmd_i</code> fails then no commands are run afterwards.</li>
+<li>All commands are executed synchronously, so the total time is <span class="math inline">\(\sum \text{time}(\text{cmd}_i)\)</span>.</li>
+<li>No feedback on how long each command has been running, or total time.</li>
+<li>There is no timeout (e.g., if it’s been executing for 30min then die).</li>
+<li>If I ever want to run a variant e.g. swap <code>cmd1</code> for <code>cmd1'</code> then I need to create an entirely new alias. Obviously this does not scale.</li>
+</ul>
+<p>Thus CLI Utils includes a command called <code>run-shell</code> or <code>rs</code> that</p>
+<ul>
+<li>Runs all commands asynchronously. A single failure does not cause others to fail</li>
+<li>Prints the current running time and displays the time each command took to finish.</li>
+<li>Includes a timeout option <code>--timeout=&lt;seconds&gt;</code>.</li>
+<li>Takes a parameter filepath to a legend. The legend includes lines like <code>cmd1=echo hi</code>, thus we can call our program like <code>cli-utils rs --legend=path/to/file cmd1</code>, greatly decreasing the amount we have to type and increasing the versatility. Legend keys can be recursive and include multiple commands delimited by commas, e.g.,</li>
+</ul>
+<pre class="text"><code>cmd1=...
+cmd2=...
+cmd_all=cmd1,cmd2</code></pre>
+<h3 id="fast-forwards-local-git-branches">Fast-forwards local Git branches</h3>
+<p>Another thing I typically due on startup is fast-forward my local branches on <code>master</code>. I take a conservative approach and only want branches forwarded that are direct ancestors (no “extra” work has been comitted). Thus I forward branches with <code>--ff-only</code>, ensuring that only branches that “should” be merged with master, are.</p>
+<p>There is also functionality to push branches automatically to remote. The command</p>
+<pre class="shell"><code>cli-utils ff origin/master --push=&quot;origin my-dev, origin other&quot;</code></pre>
+<p>will fastforward all local branches with <code>origin/master</code> and push <code>my-dev</code> and <code>other</code> to remote. This is not something I do often, but it is nice when I need it (e.g. I want to update remote targets before a merge, and checking out, merging, pushing, is tedious).</p>
+<h3 id="find-local-stale-branches">Find local stale branches</h3>
+<p>This is the functionality I least use, but it’s nice to have. It will find all remote branches that are “stale” when compared to some branch. E.g.</p>
+<pre class="shell"><code>cli-utils fs --master=origin/master --limit=30</code></pre>
+<p>will find all branches that do not have commits more recently than 30 days ago. Output is given by merged vs. un-merged (i.e. branches even with <code>--master</code> argument), organized by the last committer to each branch.</p>
+<p>Again, this is not something I use often, but I was frustrated by how long this took when I wrote a naive version in Ruby, so I rewrote this parallel version in Haskell.</p>
+    </div>
+    <div id="footer">
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </div>
+</body>
+
+<script>
+    const rx = /.*\/(.*)\.html.*/;
+    stripURI = uri => {
+        const res = rx.exec(uri);
+        if (res && res.length > 1) {
+            return res[1];
+        }
+        return '';
+    }
+
+    let loc = stripURI(window.location.href);
+    if (loc === '') {
+        loc = 'index';
+    }
+    const elements = document.getElementsByTagName('li');
+    for (let i = 0 ; i < elements.length ; i++) {
+        const s = stripURI(elements[i].innerHTML);
+        if (loc === s) {
+            elements[i].classList.add('currentLink');
+        }
+    }
+</script>
+
+</html>

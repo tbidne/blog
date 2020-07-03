@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>About</title>
+    <link rel="stylesheet" type="text/css" href="./css/default.css" />
+    <link rel="stylesheet" type="text/css" href="./css/syntax.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source Code Pro">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<body>
+    <div class="topnav">
+        <ul class="horizontal">
+            <li><a href="./index.html">Thomas Bidne</a></li>
+            <li><a href="https://github.com/tbidne" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://linkedin.com/in/tbidne" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
+            <li class="rightli"><a href="./contact.html">Contact</a></li>
+            <li class="rightli"><a href="./archive.html">Archive</a></li>
+            <li class="rightli"><a href="./projects.html">Projects</a></li>
+            <li class="rightli"><a href="./TBidne_Resume.pdf">Resume</a></li>
+            <li class="rightli"><a href="./about.html">About</a></li>
+          </ul>
+    </div>
+
+    <div id="content">
+        <h1>About</h1>
+        <p><img src="./images/banner 4k.png" height="252px" width="823px" /></p>
+<p>I am a software engineer based in Washington D.C.</p>
+<h2 id="programming">Programming</h2>
+<p>My programming interests are varied, though most recently I have become focused on program-correctness, which naturally led to Haskell. Why Haskell?</p>
+<p>On the practical side, I deeply appreciate Haskell’s purity and all the tools it provides for encoding program logic into its type system. Haskell is not the only pure functional language, but the other ones I am aware of either lack useful features (e.g. Elm and Higher Kinded Types, Typeclasses) or are relatively new and lack libraries (e.g. Agda, Idris). PureScript is perhaps the best example of a Haskell-inspired language that arguably exceeds its predecessor in its domain (web programming), though it does lack some advanced features like <code>GADTs</code> and <code>TypeFamilies</code>.</p>
+<p>Less practically, what keeps me coming back to Haskell is its commitment to pushing the boundaries and “Doing the Right Thing”. Haskell feels like an endless well of knowledge, a gateway drug of sorts. Prior to Haskell, I had never heard of concepts like “Monads”, “Dependent Types”, or “Codata”. These concepts are both extremely cool <em>and</em> useful! It is disappointing that these concepts are alien to most of the programming world, but functional programming has become more in vogue, so perhaps there will be a day when some of these more exotic ideas are mainstream. Until then, I will happily explore them on my own.</p>
+<p>Of course, Haskell is not without its warts (e.g. records, strings), and type level programming has its limitations; <code>singletons</code> is a bit kludgy (save us <code>-XDependentHaskell</code>, you’re our only hope!). Overall, though, Haskell represents the best vehicle for providing strong software guarantees, in my experience. It is an absolute joy writing a program that “just works” once it compiles, and Haskell comes closer to that platonic ideal than any other language, outside of those with full dependent types.</p>
+<h2 id="math">Math</h2>
+<p>To my great regret, I did not realize how fun math could be until my final semester of university. Fortunately there is an abundance of material both online and in books, so learning at least the basics is very doable.</p>
+<h3 id="cryptography">Cryptography</h3>
+<p>I found cryptography <em>fascinating</em> in university, and the <a href="https://github.com/tbidne/crypto">first Haskell project</a> I created was a simple (and rough!) implementation of AES and RSA. I used <a href="https://www.amazon.com/Introduction-Modern-Cryptography-Principles-Protocols/dp/1584885513">Katz and Lindell</a> as an introduction.</p>
+<h3 id="abstract-algebra">Abstract Algebra</h3>
+<p>A university cryptography course was responsible for introducing me to abstract algebra, which led to the epiphany, “Hang on, this actually seems inherently interesting.” Up until then I had a very immature view of mathematics (“math is combinatorics or calculus on <span class="math inline">\(\mathbb{R}\)</span>”, essentially), so I have abstract algebra to thank for opening my eyes to the beautiful world of math.</p>
+<p>The first math book I purchased “fun fun” was <a href="https://www.amazon.com/Book-Abstract-Algebra-Second-Mathematics/dp/0486474178">Pinter’s A Book of Abstract Algebra</a>. This book is an excellent introduction to the subject, culminating in what is the coolest proof that I know: the insolvability of the quintic equation. The quintic equation is actually what prompted me to purchase Pinter. Wikipedia has a <a href="https://en.wikipedia.org/wiki/Abel%E2%80%93Ruffini_theorem">proof sketch</a>, and I found the ideas</p>
+<ol type="1">
+<li>We have a formula for quartic equations but something “goes wrong” with degree <span class="math inline">\(\ge 5\)</span>.</li>
+<li>Somehow this problem can be encoded via “symmetries”.</li>
+</ol>
+<p>so intriguing that I decided to learn enough abstract algebra to understand the proof.</p>
+<h3 id="category-theory">Category Theory</h3>
+<p>Abstract Algebra and Haskell naturally led me to Category Theory. It took a long time to break out of the “need” for concrete objects to reason about, and commutative diagrams are still largely unintuitive, outside of the “obvious” ones that encode properties like associativity. Nevertheless, I find the subject enjoyable, and its usage in functional programming only increases my interest. I like <a href="https://www.amazon.com/Category-Theory-Oxford-Logic-Guides/dp/0199237182">Awodey</a> as an introduction and reference, though I have yet to go through the entire book.</p>
+<h3 id="number-theory">Number Theory</h3>
+<p>Along with Abstract Algebra, Number Theory was the first area of math that caught my interest. Gauss’ observation that Euler’s totient function satisfies</p>
+<p><span class="math display">\[ \sum_{d | n} \varphi (d) = n \]</span></p>
+<p>immediately made the impression <em>wait how could that possibly be true</em>. I like <a href="https://www.amazon.com/Classical-Introduction-Modern-Graduate-Mathematics/dp/038797329X">Ireland and Rosen</a> for its mix of number theory and algebra, though I have only read the first half.</p>
+<p><a href="https://www.amazon.com/Primes-Form-x2-ny2-Multiplication/dp/1118390180">Cox</a> is also a good book on the subject, and it’s part of my dream to one day understand Artin’s reciprocity law, though that is probably far-off.</p>
+<h2 id="exercise">Exercise</h2>
+<p>I enjoyed strength training and sports (mainly soccer) for years, but my girlfriend is responsible for motivating me to take running more seriously back in 2018. Since then I have completed several half-marathons, and I signed up for my first marathon for Fall 2020. That is probably out due to the pandemic, but I am still hoping to complete an unofficial marathon around then.</p>
+<p>I have come to appreciate running as a way to mentally relax and clarify my thoughts. One of my favorite things to think about while running is how I would explain some topic I’m interested in to someone else. This has been enormously helpful in organizing what I know and more importantly highlighting what I don’t know. I have lost count of the number of times I thought I understood something only to realize while giving a “mental lecture” that in fact, no, actually there are still details I do not understand!</p>
+<h2 id="traveling">Traveling</h2>
+<p>I am fortunate enough that I have been able to travel. So far I have visited Alaska, Iceland, Spain, Germany, and New Zealand.</p>
+    </div>
+    <div id="footer">
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </div>
+</body>
+
+<script>
+    const rx = /.*\/(.*)\.html.*/;
+    stripURI = uri => {
+        const res = rx.exec(uri);
+        if (res && res.length > 1) {
+            return res[1];
+        }
+        return '';
+    }
+
+    let loc = stripURI(window.location.href);
+    if (loc === '') {
+        loc = 'index';
+    }
+    const elements = document.getElementsByTagName('li');
+    for (let i = 0 ; i < elements.length ; i++) {
+        const s = stripURI(elements[i].innerHTML);
+        if (loc === s) {
+            elements[i].classList.add('currentLink');
+        }
+    }
+</script>
+
+</html>

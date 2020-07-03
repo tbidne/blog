@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Crypto</title>
+    <link rel="stylesheet" type="text/css" href="../css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../css/syntax.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source Code Pro">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<body>
+    <div class="topnav">
+        <ul class="horizontal">
+            <li><a href="../index.html">Thomas Bidne</a></li>
+            <li><a href="https://github.com/tbidne" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://linkedin.com/in/tbidne" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
+            <li class="rightli"><a href="../contact.html">Contact</a></li>
+            <li class="rightli"><a href="../archive.html">Archive</a></li>
+            <li class="rightli"><a href="../projects.html">Projects</a></li>
+            <li class="rightli"><a href="../TBidne_Resume.pdf">Resume</a></li>
+            <li class="rightli"><a href="../about.html">About</a></li>
+          </ul>
+    </div>
+
+    <div id="content">
+        <h1>Crypto</h1>
+        <p><span class="fa fa-github"></span> <a href="https://github.com/tbidne/crypto">Repo</a></p>
+<p>This is the first Haskell project I attempted, and it shows! Included are very simple implementations of AES and RSA. Of course there are bugs, little thought was given to performance, and Haskellers would likely be aghast at how non-idiomatic it is. Nevertheless, they <em>do</em> work for simple instances, which I was certainly proud of at the time.</p>
+<h2 id="rsa">RSA</h2>
+<p>RSA was definitely the easier of the two. Not only is the algorithm itself <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Operation">simple</a>, implementation is also not very difficult. The hardest part was probably generating large primes reasonably efficiently, but <a href="https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test">Miller-Rabin</a> provides a useful algorithm that I implemented.</p>
+<p>Looking at the code, probably the biggest flaws are</p>
+<ul>
+<li>No custom types! Functions use raw <code>ByteString</code>, <code>String</code>, <code>Word8</code>, etc.</li>
+<li>Unnecessary polymorphism that made the type signatures more complex than needed.</li>
+</ul>
+<p>At least most of the logic is pure.</p>
+<h2 id="aes">AES</h2>
+<p>In contrast to RSA, AES was much harder to get right, though I anticipated that as I have always found the underlying Rijndael algorithm unintuitive. Like my RSA implementation, there are no custom types here! This is a pretty big flaw, and undoubtedly made my life harder.</p>
+<p>The most glaring issue here is that the state and key matrices are represented as <em>lists</em>. Not only are linked lists bad for performance here (e.g. indexing is <span class="math inline">\(O(n)\)</span> vs <span class="math inline">\(O(1)\)</span>), it makes it really easy to create bugs as there is no fixed length! At the very least I should be using fixed-size vectors, depending on the key size. The state is possibly a good candidate for the <code>State</code> monad, maybe even <code>ST</code> if I really need the performance of true mutability.</p>
+<p>For the variable key size / state size, I could even imagine something like</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DataKinds, KindSignatures, InstanceSigs #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>public static void</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">KeySize</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  <span class="ot">=</span> <span class="dt">K128</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  <span class="op">|</span> <span class="dt">K192</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  <span class="op">|</span> <span class="dt">K256</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">CanEncrypt</span> (<span class="ot">s ::</span> <span class="dt">KeySize</span>) <span class="kw">where</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a><span class="ot">  addRoundKey ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Key</span> s <span class="ot">-&gt;</span> <span class="dt">State</span> s</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a><span class="ot">  subBytes ::</span> <span class="dt">State</span> s <span class="ot">-&gt;</span> <span class="dt">State</span> s</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a><span class="ot">  shiftRows ::</span> <span class="dt">State</span> s <span class="ot">-&gt;</span> <span class="dt">State</span> s</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a><span class="ot">  mixColumns ::</span> <span class="dt">State</span> s <span class="ot">-&gt;</span> <span class="dt">State</span> s</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">CanEncrypt</span> <span class="dt">K128</span> <span class="kw">where</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a><span class="ot">  addRoundKey ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Key</span> <span class="dt">K128</span> <span class="ot">-&gt;</span> <span class="dt">State</span> <span class="dt">K128</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>  <span class="op">...</span></span></code></pre></div>
+<p>to ensure that using the wrong key / state sizes is a compile-time error. Obviously there is the possibility this ends up too messy, or there are better ways to achieve the same thing, but it is an idea worth exploring.</p>
+<p>Another flaw is that <code>fieldMult</code> is basically a partial function, only made total by returning 0 when it encounters an unexpected parameter. One can verify that it’s “safe” since it is used correctly by the only functions that call it (<code>affineTransform</code> and <code>invAffineTransform</code>), but this is hardly ideal and subject to refactoring failures. We can definitely do better here.</p>
+<p>Were I to redo this (and it is a future project of mine), I would definitely make custom types for all of this, and move as many invariants into the types as possible.</p>
+    </div>
+    <div id="footer">
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </div>
+</body>
+
+<script>
+    const rx = /.*\/(.*)\.html.*/;
+    stripURI = uri => {
+        const res = rx.exec(uri);
+        if (res && res.length > 1) {
+            return res[1];
+        }
+        return '';
+    }
+
+    let loc = stripURI(window.location.href);
+    if (loc === '') {
+        loc = 'index';
+    }
+    const elements = document.getElementsByTagName('li');
+    for (let i = 0 ; i < elements.length ; i++) {
+        const s = stripURI(elements[i].innerHTML);
+        if (loc === s) {
+            elements[i].classList.add('currentLink');
+        }
+    }
+</script>
+
+</html>

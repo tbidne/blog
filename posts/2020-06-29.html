@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Monads are just monoids in the category of endofunctors, what's the problem?</title>
+    <link rel="stylesheet" type="text/css" href="../css/default.css" />
+    <link rel="stylesheet" type="text/css" href="../css/syntax.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source Code Pro">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<body>
+    <div class="topnav">
+        <ul class="horizontal">
+            <li><a href="../index.html">Thomas Bidne</a></li>
+            <li><a href="https://github.com/tbidne" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://linkedin.com/in/tbidne" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
+            <li class="rightli"><a href="../contact.html">Contact</a></li>
+            <li class="rightli"><a href="../archive.html">Archive</a></li>
+            <li class="rightli"><a href="../projects.html">Projects</a></li>
+            <li class="rightli"><a href="../TBidne_Resume.pdf">Resume</a></li>
+            <li class="rightli"><a href="../about.html">About</a></li>
+          </ul>
+    </div>
+
+    <div id="content">
+        <h1>Monads are just monoids in the category of endofunctors, what's the problem?</h1>
+        <article>
+    <!--<h1>Monads are just monoids in the category of endofunctors, what's the problem?</h1>-->
+    <div class="info">
+        Posted on June 29, 2020
+        
+    </div>
+    <p>The title is from James Fry’s classic <a href="https://james-iry.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html">A Brief, Incomplete, and Mostly Wrong History of Programming Languages</a>, an hilarious rundown of various programming languages. It was itself lifted from an observation in Saunders Mac Lane’s <em>Categories for The Working Mathematician</em>:</p>
+<blockquote>
+<p>All told, a monad in X is just a monoid in the category of endofunctors of X, with product × replaced by composition of endofunctors and unit set by the identity endofunctor.</p>
+</blockquote>
+<p>Monads are known for being difficult to learn, and this phrase is a well-known joke in the functional programming community, the joke being that it doesn’t make sense to anyone who doesn’t already understand it.</p>
+<p>The goal is to explain this statement to someone who knows some category theory (e.g. the definition of a category, functors), but has yet to put the pieces together.</p>
+<!--more-->
+<p>We will go over the definitions but not in great detail, assuming the reader is familiar. We will also omit some technical requirements, such as commutative diagrams and coherence conditions. To start, we will slightly amend the statement for clarity:</p>
+<blockquote>
+<p>A monad is an example of a monoid in the category of endofunctors.</p>
+</blockquote>
+<p>Or in symbols,</p>
+<p><span class="math display">\[ M \text{ is a monad} \implies M \text{ is a monoid in the category of endofunctors}. \]</span></p>
+<p>Notice that the implication is one-way, i.e., the converse is not necessarily true. More on this later.</p>
+<h2 id="monoidal-categories">Monoidal Categories</h2>
+<p>A <strong>monoidal category</strong> <span class="math inline">\((C, \otimes, I)\)</span> is a category <span class="math inline">\(C\)</span> equipped with</p>
+<ul>
+<li><span class="math inline">\(\otimes : C \times C \rightarrow C\)</span>, a bifunctor called the <strong>tensor product</strong>.</li>
+<li><span class="math inline">\(I\)</span>, an object in <span class="math inline">\(C\)</span> that behaves like the identity with <span class="math inline">\(\otimes\)</span>.</li>
+</ul>
+<p>A <strong>monoid object</strong>, or simply <strong>monoid</strong>, is an object <span class="math inline">\(A\)</span> in <span class="math inline">\(C\)</span> with two arrows:</p>
+<p><span class="math display">\[
+\begin{align*}
+  &amp; \eta : I \rightarrow A\\
+  &amp; \mu : A \otimes A \rightarrow A
+\end{align*}
+\]</span></p>
+<p><strong>Example:</strong> <span class="math inline">\((\textbf{Set}, \times, *)\)</span> is a monoidal category where <span class="math inline">\(\times\)</span> is cartesian product and <span class="math inline">\(*\)</span> is any singleton set. A monoid object in this category is a set <span class="math inline">\(A\)</span> with functions</p>
+<p><span class="math display">\[
+\begin{align*}
+  &amp; \eta : * \rightarrow A\\
+  &amp; \mu : A \times A \rightarrow A
+\end{align*}
+\]</span></p>
+<p>This yields the familiar definition of a monoid from abstract algebra, i.e., a set with a binary function (<span class="math inline">\(\mu\)</span>) and an identity (given by <span class="math inline">\(\eta\)</span>).</p>
+<h2 id="monads">Monads</h2>
+<p>Given a category <span class="math inline">\(C\)</span>, a <strong>monad</strong> is a triple <span class="math inline">\((T, \eta, \mu)\)</span> with</p>
+<ul>
+<li><span class="math inline">\(T : C \rightarrow C\)</span>, an endofunctor on <span class="math inline">\(C\)</span>.</li>
+<li>Natural transformations:</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+  &amp; \eta : 1_C \rightarrow T\\
+  &amp; \mu : T^2 \rightarrow T
+\end{align*}
+\]</span></p>
+<p>where <span class="math inline">\(1_C\)</span> is the identity functor on <span class="math inline">\(C\)</span> and <span class="math inline">\(T^2\)</span> is <span class="math inline">\(T\)</span> composed with itself, i.e., <span class="math inline">\(T \circ T\)</span>.</p>
+<p><strong>Example:</strong> Again consider <span class="math inline">\(\textbf{Set}\)</span>, and let <span class="math inline">\(T : \textbf{Set} \rightarrow \textbf{Set}\)</span> be the power set functor. Then <span class="math inline">\((T, \eta, \mu)\)</span> is a monad on <span class="math inline">\(\textbf{Set}\)</span> where <span class="math inline">\(\eta\)</span> maps each <span class="math inline">\(a \in A\)</span> to <span class="math inline">\(\{a\}\)</span>, and <span class="math inline">\(\mu\)</span> maps a nested set to its union. That is,</p>
+<p><span class="math display">\[
+\begin{align*}
+  &amp; \eta(A) = \bigcup_{a \in A} \{a\} \\
+  &amp; \mu(A) = \bigcup_{a \in A} a
+\end{align*}
+\]</span></p>
+<h2 id="category-of-endofunctors">Category of Endofunctors</h2>
+<p>Every category <span class="math inline">\(C\)</span> gives rise to a category of endofunctors <span class="math inline">\(\text{End}_C\)</span>. The objects in this category are endofunctors <span class="math inline">\(T : C \rightarrow C\)</span>, and the arrows are natural transformations.</p>
+<h2 id="putting-it-all-together">Putting it all together</h2>
+<p><span class="math inline">\((\text{End}_C, \circ, 1_C)\)</span> is a monoidal category with <span class="math inline">\(\circ\)</span> as <em>functor</em> composition. A monoid in this category, then, is an endofunctor <span class="math inline">\(T\)</span> with natural transformations:</p>
+<p><span class="math display">\[
+\begin{align*}
+  &amp; \eta : 1_C \rightarrow T\\
+  &amp; \mu : T \circ T \rightarrow T
+\end{align*}
+\]</span></p>
+<p>This is exactly the definition of a monad! Putting it back into words:</p>
+<blockquote>
+<p>A monad <span class="math inline">\((T, \eta, \mu)\)</span> is a monoid in <span class="math inline">\((\text{End}_C, \circ, 1_C)\)</span>.</p>
+</blockquote>
+<h2 id="coda">Coda</h2>
+<p>Remember this comment?</p>
+<blockquote>
+<p>Notice that the implication is one-way, i.e., the converse is not necessarily true.</p>
+</blockquote>
+<p>This is because there is more than one way of defining a “monoid in the category of endofunctors”. We have used the definition <span class="math inline">\(\otimes = \circ\)</span> where <span class="math inline">\(\circ\)</span> is functor composition. In this case, yes, a monoid in this category is exactly a monad.</p>
+<p>But recall that the definition leaves open the possibility of using a different tensor product. In particular, we could take <span class="math inline">\(\otimes = \star\)</span> where <span class="math inline">\(\star\)</span> is Day Convolution. In that case we get a <em>different</em> “monoid in the category of endofunctors”, and in fact a monoid in this category is a <strong>lax monoidal functor</strong>, not a monad.</p>
+</article>
+    </div>
+    <div id="footer">
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </div>
+</body>
+
+<script>
+    const rx = /.*\/(.*)\.html.*/;
+    stripURI = uri => {
+        const res = rx.exec(uri);
+        if (res && res.length > 1) {
+            return res[1];
+        }
+        return '';
+    }
+
+    let loc = stripURI(window.location.href);
+    if (loc === '') {
+        loc = 'index';
+    }
+    const elements = document.getElementsByTagName('li');
+    for (let i = 0 ; i < elements.length ; i++) {
+        const s = stripURI(elements[i].innerHTML);
+        if (loc === s) {
+            elements[i].classList.add('currentLink');
+        }
+    }
+</script>
+
+</html>
