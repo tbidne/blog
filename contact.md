@@ -13,6 +13,6 @@ title: Contact
   </tr>
   <tr>
     <td><span class="fa fa-lock"></span></td>
-    <td><a href="Thomas Bidne (439F92C4).asc">PGP</a></td>
+    <td><a href="Thomas Bidne (439F92C4).txt">PGP</a></td>
   </tr>
 </table>

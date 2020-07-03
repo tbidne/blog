@@ -16,43 +16,21 @@
 </script>
 
 <body>
-    <div id="banner">
-        <img src="/images/banner 4k.png" height="337px" width="1098px" />
-    </div>
-
-    <div class="sidenav">
-        <div id="title">
-            Thomas Bidne
-        </div>
-        <div id="pic">
-            <img src="/images/prof circle.png" height="128px" width="128px" />
-        </div>
-        <table id="mylinks">
-            <tr>
-                <td>
-                    <a href="https://github.com/tbidne" target="_blank" title="GitHub"><i class="fa fa-github"></i></a>
-                </td>
-                <td>
-                    <a href="https://linkedin.com/in/tbidne" target="_blank" title="LinkedIn"><i
-                            class="fa fa-linkedin"></i></a>
-                </td>
-                <td>
-                    <a href="/TBidne_Resume.pdf" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a>
-                </td>
-                <td>
-                    <a href="mailto:tbidne@gmail.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a>
-                </td>
-            </tr>
-        </table>
-        <a href="/index.html">Home</a>
-        <a href="/about.html">About</a>
-        <a href="/projects.html">Projects</a>
-        <a href="/contact.html">Contact</a>
-        <a href="/TBidne_Resume.pdf">Resume</a>
-        <a href="/archive.html">Archive</a>
+    <div class="topnav">
+        <ul class="horizontal">
+            <li><a href="/index.html">Thomas Bidne</a></li>
+            <li><a href="https://github.com/tbidne" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://linkedin.com/in/tbidne" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
+            <li class="rightli"><a href="/contact.html">Contact</a></li>
+            <li class="rightli"><a href="/archive.html">Archive</a></li>
+            <li class="rightli"><a href="/projects.html">Projects</a></li>
+            <li class="rightli"><a href="/TBidne_Resume.pdf">Resume</a></li>
+            <li class="rightli"><a href="/about.html">About</a></li>
+          </ul>
     </div>
 
     <div id="content">
+        <h1>$title$</h1>
         $body$
     </div>
     <div id="footer">
@@ -60,5 +38,25 @@
         <a href="http://jaspervdj.be/hakyll">Hakyll</a>
     </div>
 </body>
+
+<script>
+    const rx = /.*\/(.*)\.html.*/;
+    stripURI = uri => {
+        const res = rx.exec(uri);
+        if (res && res.length > 1) {
+            return res[1];
+        }
+        return '';
+    }
+
+    const loc = stripURI(window.location.href);
+    const elements = document.getElementsByTagName('li');
+    for (let i = 0 ; i < elements.length ; i++) {
+        const s = stripURI(elements[i].innerHTML);
+        if (loc === s) {
+            elements[i].classList.add('currentLink');
+        }
+    }
+</script>
 
 </html>

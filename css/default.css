@@ -3,7 +3,6 @@ body {
     background: #f8f8f8;
     font-size: 16px;
     font-family: 'Avenir', 'Source Code Pro';
-    width: 1000px;
 }
 
 blockquote {
@@ -16,6 +15,7 @@ blockquote {
 
 body #content {
     margin-left: 225px;
+    max-width: 53.125rem;
 }
 
 div#banner {
@@ -53,12 +53,25 @@ div#footer {
     text-align: right;
 }
 
+article {
+    max-width: 53.125rem;
+}
+
 h1 {
-    font-size: 24px;
+    font-size: 2.3rem;
+    font-weight: 700;
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-top: 3rem;
+}
+
+p {
+    font-size: 1.2rem;
+    max-width: 43.75rem;
+    margin-bottom: 2rem;
 }
 
 div.info {
@@ -67,48 +80,56 @@ div.info {
     font-style: italic;
 }
 
-.sidenav {
-    height: 100%;
-    width: 215px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #111;
-    color: #818181;
-    overflow-x: hidden;
-    padding-top: 20px;
-}
-
-.sidenav #title {
-    padding: 6px 8px 6px 16px;
-    font-size: 25px;
-    margin: 0px auto 0px auto;
-}
-
-.sidenav #pic {
-    margin-left: 36px;
-}
-
-.sidenav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-}
-  
-.sidenav a:hover {
-    color: #f1f1f1;
-}
-
 .main {
     margin-left: 160px; /* Same as the width of the sidenav */
     font-size: 28px; /* Increased text to enable scrolling */
     padding: 0px 10px;
 }
 
-@media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+.topnav {
+    text-align: center;
+    color: #333333;
+    overflow: hidden;
+    border-style: solid;
+    border-color: #c5c5c5;
+    border-width: 0.05rem;
+    border-left: none;
+    border-right: none;
+}
+
+.topnav a {
+    float: left;
+    color: #333333;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    color: #c9a16e;
+}
+
+.topnav .currentLink a {
+    border-left: solid;
+    border-right: solid;
+    border-color: #c5c5c5;
+    border-width: 0.05rem;
+ }
+
+.topnav ul.horizontal {
+    border-top: 1em;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: #000000;
+}
+
+.topnav li {
+    float: left;
+}
+
+.topnav li.rightli {
+    float: right;
 }

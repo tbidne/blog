@@ -2,6 +2,8 @@
 title: About
 ---
 
+<img src="/images/banner 4k.png" height="252px" width="823px" />
+
 I am a software engineer based in Washington D.C.
 
 ## Programming
